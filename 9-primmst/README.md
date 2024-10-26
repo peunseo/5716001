@@ -1,1 +1,1 @@
-![](./9-primmst)
+![](./9-primmst.png)
