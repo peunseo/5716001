@@ -5,14 +5,14 @@
 #define SIZE 100
 #define SWAP(x, y, t) ((t) = (x), (x) = (y), (y) = (t))
 
-// ¹«ÀÛÀ§ µ¥ÀÌÅÍ 100 »ı¼º
+// ë¬´ì‘ìœ„ ë°ì´í„° 100 ìƒì„±
 void generateRandomData(int list[]) {
     srand(time(0));
     for (int i = 0; i < SIZE; i++)
         list[i] = rand() % 1000;
 }
 
-// Ãâ·Â ÇÔ¼ö
+// ì¶œë ¥ í•¨ìˆ˜
 void printArray(int list[]) {
     for (int i = 0; i < SIZE; i++) {
         printf("%d ", list[i]);
@@ -20,13 +20,13 @@ void printArray(int list[]) {
     printf("\n\n");
 }
 
-// ¼±ÅÃÁ¤·Ä
+// ì„ íƒì •ë ¬
 void doSelectionSort(int list[]) {
     printf("Selection Sort :\n");
     int i, j, least, temp;
     int tempList[SIZE];
     for (int i = 0; i < SIZE; i++) {
-        tempList[i] = list[i]; // ¿øº»¹è¿­ º¹»ç
+        tempList[i] = list[i]; // ì›ë³¸ë°°ì—´ ë³µì‚¬
     }
 
     for (i = 0; i < SIZE - 1; i++) {
@@ -35,31 +35,28 @@ void doSelectionSort(int list[]) {
             if (tempList[j] < tempList[least]) least = j;
         SWAP(tempList[i], tempList[least], temp);
 
-        // 10´Ü°è, 30´Ü°è, 50´Ü°è, 70´Ü°è, 90´Ü°è, 99´Ü°è Ãâ·Â
+        // 10ë‹¨ê³„, 30ë‹¨ê³„, 50ë‹¨ê³„, 70ë‹¨ê³„, 90ë‹¨ê³„, 99ë‹¨ê³„ ì¶œë ¥
         if (i == 9 || i == 29 || i == 49 || i == 69 || i == 89 || i == 98) {
             printf("Step %d: ", i + 1);
             printArray(tempList);
         }
     }
-    // ÃÖÁ¾ Á¤·Ä °á°ú Ãâ·Â
-    printf("Selection Sort Final Result:\n");
-    printArray(tempList);
 }
 
-// »ğÀÔÁ¤·Ä
+// ì‚½ì…ì •ë ¬
 void doInsertionSort(int list[]) {
     int totalComparisons = 0;
     int finalResult[SIZE];
 
-    // 20¹ø ½Ãµµ 
+    // 20ë²ˆ ì‹œë„ 
     for (int attempt = 0; attempt < 20; attempt++) {
         int comparisons = 0;
         int tempList[SIZE];
         for (int i = 0; i < SIZE; i++) {
-            tempList[i] = list[i]; // ¿øº»¹è¿­ º¹»ç
+            tempList[i] = list[i]; // ì›ë³¸ë°°ì—´ ë³µì‚¬
         }
 
-        // »ğÀÔÁ¤·Ä ¼öÇà, ºñ±³È½¼ö °è»ê
+        // ì‚½ì…ì •ë ¬ ìˆ˜í–‰, ë¹„êµíšŸìˆ˜ ê³„ì‚°
         for (int i = 1; i < SIZE; i++) {
             int key = tempList[i];
             int j = i - 1;
@@ -71,48 +68,46 @@ void doInsertionSort(int list[]) {
             comparisons++;
             tempList[j + 1] = key;
         }
-        // ÃÖÁ¾ °á°ú´Â ¸¶Áö¸· ½ÃµµÀÇ Á¤·Ä °á°ú
         for (int i = 0; i < SIZE; i++) {
             finalResult[i] = tempList[i];
         }
         totalComparisons += comparisons;
     }
-    // Ãâ·Â
+    // ì¶œë ¥
     printf("Insertion Sort Compare Average: %d\n", totalComparisons / 20);
     printf("Insertion Sort Final Result:\n");
     printArray(finalResult);
 }
 
-// ¹öºíÁ¤·Ä
+// ë²„ë¸”ì •ë ¬
 void doBubbleSort(int list[]) {
     int totalMoves = 0;
     int finalResult[SIZE];
 
-    // 20¹ø ½Ãµµ 
+    // 20ë²ˆ ì‹œë„ 
     for (int attempt = 0; attempt < 20; attempt++) {
         int moves = 0;
         int tempList[SIZE];
         for (int i = 0; i < SIZE; i++) {
-            tempList[i] = list[i]; // ¿øº»¹è¿­ º¹»ç
+            tempList[i] = list[i]; // ì›ë³¸ë°°ì—´ ë³µì‚¬
         }
 
-        // ¹öºíÁ¤·Ä ¼öÇà, ÀÌµ¿È½¼ö °è»ê
+        // ë²„ë¸”ì •ë ¬ ìˆ˜í–‰, ì´ë™íšŸìˆ˜ ê³„ì‚°
         for (int i = SIZE - 1; i > 0; i--) {
             for (int j = 0; j < i; j++) {
                 if (tempList[j] > tempList[j + 1]) {
                     int temp;
                     SWAP(tempList[j], tempList[j + 1], temp);
-                    moves += 3; // swapÀº +3
+                    moves += 3; // swapì€ +3
                 }
             }
         }
-        // ÃÖÁ¾ °á°ú´Â ¸¶Áö¸· ½ÃµµÀÇ Á¤·Ä °á°ú
         for (int i = 0; i < SIZE; i++) {
             finalResult[i] = tempList[i];
         }
         totalMoves += moves;
     }
-    // Ãâ·Â
+    // ì¶œë ¥
     printf("Bubble Sort Move Average: %d\n", totalMoves / 20);
     printf("Bubble Sort Final Result:\n");
     printArray(finalResult);
