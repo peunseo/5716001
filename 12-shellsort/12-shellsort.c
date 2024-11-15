@@ -4,50 +4,51 @@
 
 #define ARRAY_SIZE 100
 
-// ·£´ı ¹è¿­ »ı¼º
+// ëœë¤ ë°°ì—´ ìƒì„±
 void generateRandomNumbers(int Array[]) {
 	for (int i = 0; i < ARRAY_SIZE; i++)
 		Array[i] = rand() % 1000;
 }
 
-// ½©ÀÇ »ğÀÔ Á¤·Ä
+// ì‰˜ì˜ ì‚½ì… ì •ë ¬
 void inc_insertion_sort(int list[], int first, int last, int gap, int* comp, int* move) {
 	int i, j, key;
 	for (i = first + gap; i <= last; i = i + gap) {
 		key = list[i];
-		(*move)++;  // key¿¡ °ªÀ» ÇÒ´çÇÏ´Â ÀÌµ¿ Ä«¿îÆ®
+		(*move)++;  // keyì— ê°’ì„ í• ë‹¹í•˜ëŠ” ì´ë™ ì¹´ìš´íŠ¸
 		for (j = i - gap; j >= first && key < list[j]; j = j - gap) {
-			(*comp)++;  // ºñ±³ È½¼ö Áõ°¡
+			(*comp)++;  // ë¹„êµ íšŸìˆ˜ ì¦ê°€
 			list[j + gap] = list[j];
-			(*move)++;  // ÀÌµ¿ È½¼ö Áõ°¡
+			(*move)++;  // ì´ë™ íšŸìˆ˜ ì¦ê°€
 		}
 		list[j + gap] = key;
-		(*move)++;  // ÀÌµ¿ È½¼ö Áõ°¡
+		(*move)++;  // ì´ë™ íšŸìˆ˜ ì¦ê°€
 	}
 }
 
-// ½© Á¤·Ä ÇÔ¼ö
+// ì‰˜ ì •ë ¬ í•¨ìˆ˜
 void doShellSort(int list[], int n, int* comp, int* move) {
 	int i, gap;
 	int totalComp = 0, totalMove = 0;
 
-	for (int repeat = 0; repeat < 20; repeat++) {  // 20È¸ ¹İº¹
-		generateRandomNumbers(list);  // ¸Å È¸ ´Ù¸¥ ¹è¿­ »ı¼º
-		*comp = 0;  // ºñ±³ È½¼ö ÃÊ±âÈ­
-		*move = 0;  // ÀÌµ¿ È½¼ö ÃÊ±âÈ­
+	for (int repeat = 0; repeat < 20; repeat++) {  // 20íšŒ ë°˜ë³µ
+		generateRandomNumbers(list);  // ë§¤ íšŒ ë‹¤ë¥¸ ë°°ì—´ ìƒì„±
+		*comp = 0;  // ë¹„êµ íšŸìˆ˜ ì´ˆê¸°í™”
+		*move = 0;  // ì´ë™ íšŸìˆ˜ ì´ˆê¸°í™”
 
 		if (n == 2) {
 			for (gap = ARRAY_SIZE / 2; gap > 0; gap = gap / 2) {
-				for (i = 0; i < gap; i++)  // ºÎºĞ ¸®½ºÆ®ÀÇ °³¼ö´Â gap
+				for (i = 0; i < gap; i++)  // ë¶€ë¶„ ë¦¬ìŠ¤íŠ¸ì˜ ê°œìˆ˜ëŠ” gap
 					inc_insertion_sort(list, i, ARRAY_SIZE - 1, gap, comp, move);
 
-				// Ã¹ ¹øÂ° ¹İº¹¿¡¼­¸¸ Ãâ·Â
+				// ì²« ë²ˆì§¸ ë°˜ë³µì—ì„œë§Œ ì¶œë ¥
 				if (repeat == 0) {
 					printf("Sorting with gap = %d:\n", gap);
-					for (int k = 0; k < 20; k++)  // ¹è¿­ÀÇ ÀÏºÎ¸¸ Ãâ·Â
+					for (int k = 0; k < 20; k++)  // ë°°ì—´ì˜ ì¼ë¶€ë§Œ ì¶œë ¥
 						printf("%d ", list[k]);
 					printf(" . . .\n\n");
-
+					
+					// ìµœì¢… ê²°ê³¼ ì¶œë ¥
 					if (gap == 1) {
 						printf("Sorted shellArray :\n");
 						for (int i = 0; i < ARRAY_SIZE; i++)
@@ -60,16 +61,17 @@ void doShellSort(int list[], int n, int* comp, int* move) {
 
 		if (n == 3) {
 			for (gap = ARRAY_SIZE / 3; gap > 0; gap = gap / 3) {
-				for (i = 0; i < gap; i++)  // ºÎºĞ ¸®½ºÆ®ÀÇ °³¼ö´Â gap
+				for (i = 0; i < gap; i++)  // ë¶€ë¶„ ë¦¬ìŠ¤íŠ¸ì˜ ê°œìˆ˜ëŠ” gap
 					inc_insertion_sort(list, i, ARRAY_SIZE - 1, gap, comp, move);
 
-				// Ã¹ ¹øÂ° ¹İº¹¿¡¼­¸¸ Ãâ·Â
+				// ì²« ë²ˆì§¸ ë°˜ë³µì—ì„œë§Œ ì¶œë ¥
 				if (repeat == 0) {
 					printf("Sorting with gap = %d:\n", gap);
-					for (int k = 0; k < 20; k++)  // ¹è¿­ÀÇ ÀÏºÎ¸¸ Ãâ·Â
+					for (int k = 0; k < 20; k++)  // ë°°ì—´ì˜ ì¼ë¶€ë§Œ ì¶œë ¥
 						printf("%d ", list[k]);
 					printf(" . . .\n\n");
-
+					
+					// ìµœì¢… ê²°ê³¼ ì¶œë ¥
 					if (gap == 1) {
 						printf("Sorted shellArray :\n");
 						for (int i = 0; i < ARRAY_SIZE; i++)
@@ -79,41 +81,40 @@ void doShellSort(int list[], int n, int* comp, int* move) {
 				}
 			}
 		}
-
 		totalComp += *comp;
 		totalMove += *move;
 	}
-
-	// Æò±Õ ºñ±³ ¹× ÀÌµ¿ È½¼ö °è»ê ÈÄ comp¿Í move¿¡ ÀúÀå
+	// í‰ê·  ë¹„êµ ë° ì´ë™ íšŸìˆ˜ ê³„ì‚° í›„ compì™€ moveì— ì €ì¥
 	*comp = totalComp / 20;
 	*move = totalMove / 20;
 }
 
-// ´Ü¼ø »ğÀÔ Á¤·Ä
+// ë‹¨ìˆœ ì‚½ì… ì •ë ¬
 void doInsertionSort(int list[], int* comp, int* move) {
 	int totalComp = 0, totalMove = 0;
-
-	for (int repeat = 0; repeat < 20; repeat++) {  // 20È¸ ¹İº¹
-		generateRandomNumbers(list);  // ¸Å È¸ ´Ù¸¥ ¹è¿­ »ı¼º
-		*comp = 0;  // ºñ±³ È½¼ö ÃÊ±âÈ­
-		*move = 0;  // ÀÌµ¿ È½¼ö ÃÊ±âÈ­
+	
+	// 20íšŒ ë°˜ë³µ
+	for (int repeat = 0; repeat < 20; repeat++) {
+		generateRandomNumbers(list);  // ë§¤ íšŒ ë‹¤ë¥¸ ë°°ì—´ ìƒì„±
+		*comp = 0;  // ë¹„êµ íšŸìˆ˜ ì´ˆê¸°í™”
+		*move = 0;  // ì´ë™ íšŸìˆ˜ ì´ˆê¸°í™”
 
 		int i, j, key;
 		for (i = 1; i < ARRAY_SIZE; i++) {
 			key = list[i];
-			(*move)++;  // key ÇÒ´ç ÀÌµ¿ Ä«¿îÆ®
+			(*move)++;  // key í• ë‹¹ ì´ë™ ì¹´ìš´íŠ¸
 			for (j = i - 1; j >= 0 && list[j] > key; j--) {
-				(*comp)++;  // ºñ±³ È½¼ö Áõ°¡
+				(*comp)++;  // ë¹„êµ íšŸìˆ˜ ì¦ê°€
 				list[j + 1] = list[j];
-				(*move)++;  // ÀÌµ¿ È½¼ö Áõ°¡
+				(*move)++;  // ì´ë™ íšŸìˆ˜ ì¦ê°€
 			}
 			list[j + 1] = key;
-			(*move)++;  // ÀÌµ¿ È½¼ö Áõ°¡
+			(*move)++;  // ì´ë™ íšŸìˆ˜ ì¦ê°€
 		}
-
 		totalComp += *comp;
 		totalMove += *move;
-
+		
+		// ìµœì¢… ê²°ê³¼ ì¶œë ¥
 		if (repeat == 19) {
 			printf("Sorted insertionArray :\n");
 			for (int i = 0; i < ARRAY_SIZE; i++)
@@ -121,7 +122,7 @@ void doInsertionSort(int list[], int* comp, int* move) {
 			printf("\n\n");
 		}
 	}
-	// Æò±Õ ºñ±³ ¹× ÀÌµ¿ È½¼ö °è»ê ÈÄ comp¿Í move¿¡ ÀúÀå
+	// í‰ê·  ë¹„êµ ë° ì´ë™ íšŸìˆ˜ ê³„ì‚° í›„ compì™€ moveì— ì €ì¥
 	*comp = totalComp / 20;
 	*move = totalMove / 20;
 }
@@ -130,7 +131,7 @@ int main() {
 	int array[ARRAY_SIZE];
 	int comparisonCount, moveCount;
 
-	srand(time(NULL));  // ³­¼ö ÃÊ±âÈ­
+	srand(time(NULL));  // ë‚œìˆ˜ ì´ˆê¸°í™”
 
 	// Shell Sort
 	printf("Shell Sort (n/2):\n");
