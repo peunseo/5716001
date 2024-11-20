@@ -1,1 +1,1 @@
-!(.)[./13-mergesort.png]
+![](./13-mergesort.png)
