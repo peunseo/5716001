@@ -2,17 +2,17 @@
 #include <stdlib.h>
 #include <time.h>	
 
-int compareCount = 0; // ºñ±³ È½¼ö
-int searchCount = 0;  // Å½»ö È½¼ö
+int compareCount = 0; // ë¹„êµ íšŸìˆ˜
+int searchCount = 0;  // íƒìƒ‰ íšŸìˆ˜
 
-// ±¸Á¶Ã¼ Á¤ÀÇ
+// êµ¬ì¡°ì²´ ì •ì˜
 typedef struct Node {
     int key;
     struct Node* left, * right;
     int height;
 }Node;
 
-// ³ëµå »ı¼º
+// ë…¸ë“œ ìƒì„±
 Node* createNode(int key) {
     Node* node = (Node*)malloc(sizeof(Node));
     node->key = key;
@@ -21,13 +21,13 @@ Node* createNode(int key) {
     return node;
 }
 
-// Æ®¸® ³ôÀÌ °è»ê
+// íŠ¸ë¦¬ ë†’ì´ ê³„ì‚°
 int height(Node* n) { return n ? n->height : 0; }
 
-// ±ÕÇü °è¼ö °è»ê
+// ê· í˜• ê³„ìˆ˜ ê³„ì‚°
 int balance(Node* n) { return n ? height(n->left) - height(n->right) : 0; }
 
-// ¿À¸¥ÂÊ È¸Àü
+// ì˜¤ë¥¸ìª½ íšŒì „
 Node* rotateRight(Node* y) {
     Node* x = y->left;
     Node* T = x->right;
@@ -41,7 +41,7 @@ Node* rotateRight(Node* y) {
     return x;
 }
 
-// ¿ŞÂÊ È¸Àü
+// ì™¼ìª½ íšŒì „
 Node* rotateLeft(Node* y) {
     Node* x = y->right;
     Node* T = x->left;
@@ -55,7 +55,7 @@ Node* rotateLeft(Node* y) {
     return x;
 }
 
-// AVL »ğÀÔ
+// AVL ì‚½ì…
 Node* avlInsert(Node* node, int key) {
     if (!node) return createNode(key);
     if (key < node->key) node->left = avlInsert(node->left, key);
@@ -78,7 +78,7 @@ Node* avlInsert(Node* node, int key) {
     return node;
 }
 
-// ÃÖ¼Ò°ª ³ëµå Ã£±â
+// ìµœì†Œê°’ ë…¸ë“œ ì°¾ê¸°
 Node* minValueNode(Node* node) {
     Node* current = node;
     while (current && current->left)
@@ -86,7 +86,7 @@ Node* minValueNode(Node* node) {
     return current;
 }
 
-// AVL »èÁ¦
+// AVL ì‚­ì œ
 Node* avlDelete(Node* root, int key) {
     if (!root) return root;
     if (key < root->key) root->left = avlDelete(root->left, key);
@@ -118,7 +118,7 @@ Node* avlDelete(Node* root, int key) {
     return root;
 }
 
-// BST »ğÀÔ
+// BST ì‚½ì…
 Node* bstInsert(Node* node, int key) {
     if (!node) return createNode(key);
     if (key < node->key) node->left = bstInsert(node->left, key);
@@ -126,7 +126,7 @@ Node* bstInsert(Node* node, int key) {
     return node;
 }
 
-// BST »èÁ¦
+// BST ì‚­ì œ
 Node* bstDelete(Node* root, int key) {
     if (!root) return root;
     if (key < root->key) root->left = bstDelete(root->left, key);
@@ -144,28 +144,28 @@ Node* bstDelete(Node* root, int key) {
     return root;
 }
 
-// Å½»ö
+// íƒìƒ‰
 Node* search(Node* root, int data, int* compareCount) {
-    (*compareCount)++;  // ºñ±³ È½¼ö Áõ°¡
+    (*compareCount)++;  // ë¹„êµ íšŸìˆ˜ ì¦ê°€
     if (root == NULL || root->key == data) return root;
     (*compareCount)++; 
-    if (data < root->key) return search(root->left, data, compareCount);  // ¿ŞÂÊ ÇÏÀ§ Æ®¸® Å½»ö
-    return search(root->right, data, compareCount);  // ¿À¸¥ÂÊ ÇÏÀ§ Æ®¸® Å½»ö
+    if (data < root->key) return search(root->left, data, compareCount);  // ì™¼ìª½ í•˜ìœ„ íŠ¸ë¦¬ íƒìƒ‰
+    return search(root->right, data, compareCount);  // ì˜¤ë¥¸ìª½ í•˜ìœ„ íŠ¸ë¦¬ íƒìƒ‰
 }
 
 
 // AVL Batch
 Node* doAVLBatch(Node* root) {
     for (int i = 0; i < 2000; i++) {
-        int A = rand() % 3;     // A´Â 0~2
-        int B = rand() % 1000;  // B´Â 0~999
-        if (A == 0) root = avlInsert(root, B);  // A°¡ 0ÀÌ¸é B¸¦ Ãß°¡
-        else if (A == 1) root = avlDelete(root, B); // 1ÀÌ¸é »èÁ¦  
+        int A = rand() % 3;     // AëŠ” 0~2
+        int B = rand() % 1000;  // BëŠ” 0~999
+        if (A == 0) root = avlInsert(root, B);  // Aê°€ 0ì´ë©´ Bë¥¼ ì¶”ê°€
+        else if (A == 1) root = avlDelete(root, B); // 1ì´ë©´ ì‚­ì œ  
         else {
             int localCompareCount = 0;
-            search(root, B, &localCompareCount);  // Å½»ö È£Ãâ ½Ã ºñ±³ È½¼ö Àü´Ş
-            compareCount += localCompareCount;  // ÀüÃ¼ ºñ±³ È½¼ö¿¡ ÇÕ»ê
-            searchCount++;  // Å½»ö È½¼ö Áõ°¡
+            search(root, B, &localCompareCount);  // íƒìƒ‰ í˜¸ì¶œ ì‹œ ë¹„êµ íšŸìˆ˜ ì „ë‹¬
+            compareCount += localCompareCount;  // ì „ì²´ ë¹„êµ íšŸìˆ˜ì— í•©ì‚°
+            searchCount++;  // íƒìƒ‰ íšŸìˆ˜ ì¦ê°€
         }
     }
     return root;
@@ -173,22 +173,23 @@ Node* doAVLBatch(Node* root) {
 
 // Binary Batch
 Node* doBinaryBatch(Node* root) {
+    int compareCount = 0, searchCount = 0;  // ë¹„êµíšŸìˆ˜, íƒìƒ‰íšŸìˆ˜ ì´ˆê¸°í™”
     for (int i = 0; i < 2000; i++) {
-        int A = rand() % 3;     // A´Â 0~2
-        int B = rand() % 1000;  // B´Â 0~999
-        if (A == 0) root = avlInsert(root, B);  // A°¡ 0ÀÌ¸é B¸¦ Ãß°¡
-        else if (A == 1) root = avlDelete(root, B); // 1ÀÌ¸é »èÁ¦  
+        int A = rand() % 3;     // AëŠ” 0~2
+        int B = rand() % 1000;  // BëŠ” 0~999
+        if (A == 0) root = avlInsert(root, B);  // Aê°€ 0ì´ë©´ Bë¥¼ ì¶”ê°€
+        else if (A == 1) root = avlDelete(root, B); // 1ì´ë©´ ì‚­ì œ  
         else {
             int localCompareCount = 0;
-            search(root, B, &localCompareCount);  // Å½»ö È£Ãâ ½Ã ºñ±³ È½¼ö Àü´Ş
-            compareCount += localCompareCount;  // ÀüÃ¼ ºñ±³ È½¼ö¿¡ ÇÕ»ê
-            searchCount++;  // Å½»ö È½¼ö Áõ°¡
+            search(root, B, &localCompareCount);  // íƒìƒ‰ í˜¸ì¶œ ì‹œ ë¹„êµ íšŸìˆ˜ ì „ë‹¬
+            compareCount += localCompareCount;  // ì „ì²´ ë¹„êµ íšŸìˆ˜ì— í•©ì‚°
+            searchCount++;  // íƒìƒ‰ íšŸìˆ˜ ì¦ê°€
         }
     }
     return root;
 }
 
-// ¸Ş¸ğ¸® ÇØÁ¦
+// ë©”ëª¨ë¦¬ í•´ì œ
 void freeTree(Node* root) {
     if (root) {
         freeTree(root->left);
@@ -197,23 +198,23 @@ void freeTree(Node* root) {
     }
 }
 
-// ¸ŞÀÎ
+// ë©”ì¸
 int main(int argc, char* argv[]) {
     Node* root = NULL;
     srand(time(NULL));
     float allCount = 0.0;
 
-    // °úÁ¦¿¡¼­ Á¦½ÃµÈ AVL¿¡ ´ëÇÑ 2000È¸ Batch ÀÛ¾÷À» ¼öÇàÇÑ´Ù.
+    // ê³¼ì œì—ì„œ ì œì‹œëœ AVLì— ëŒ€í•œ 2000íšŒ Batch ì‘ì—…ì„ ìˆ˜í–‰í•œë‹¤.
     doAVLBatch(root);
     allCount = (float)compareCount / searchCount;
     printf("average AVL compare count: %.2f\n", allCount);
 
-    // ÈÄÀ§¼øÈ¸ÇÏ¸ç AVLÆ®¸®·Î ¸¸µé¾îÁ³´ø ¸ğµç µ¥ÀÌÅÍ¸¦ free
+    // í›„ìœ„ìˆœíšŒí•˜ë©° AVLíŠ¸ë¦¬ë¡œ ë§Œë“¤ì–´ì¡Œë˜ ëª¨ë“  ë°ì´í„°ë¥¼ free
     freeTree(root);
     root = NULL;
-    compareCount = searchCount = 0;
+    compareCount = allCount = 0;
 
-    // °úÁ¦¿¡¼­ Á¦½ÃµÈ Binary Search Tree Batch¸¦ ¼öÇàÇÑ´Ù.
+    // ê³¼ì œì—ì„œ ì œì‹œëœ Binary Search Tree Batchë¥¼ ìˆ˜í–‰í•œë‹¤.
     doBinaryBatch(root);
     allCount = (float)compareCount / searchCount;
     printf("average Bin compare count: %.2f\n", allCount);
@@ -221,3 +222,7 @@ int main(int argc, char* argv[]) {
     freeTree(root);
     return 0;
 }
+
+// 215ë²ˆì§¸ ì¤„ì— compareCount = allCount = 0;ì—ì„œ ì´ˆê¸°í™” ê°’ì´ compareCount = searchCount = 0; ê²Œ ì•„ë‹Œê°€ ì—¬ì­™ìŠµë‹ˆë‹¤ ..
+// allCountëŠ” 219ë²ˆì§¸ ì¤„ì—ì„œ ê°’ì´ ìµœì‹ í™”ëœë‹¤ê³  ìƒê°í•©ë‹ˆë‹¤ ..
+// ê·¸ë˜ì„œ ë§ì¶”ê¸°ìœ„í•´ binì—ì„œ ë”°ë¡œ ì´ˆê¸°í™”í•˜ê¸´ í–ˆìŠµë‹ˆë‹¹ ..
